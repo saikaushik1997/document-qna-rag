@@ -10,7 +10,7 @@ class Settings(BaseSettings):
     pinecone_index: str
     
     # Cohere
-    cohere_api_key: str
+    co_api_key: str
         
     # LangSmith
     langsmith_api_key: str
