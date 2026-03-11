@@ -54,14 +54,19 @@ def _rerank(query: str, matches: list[dict]) -> list[dict]:
 # Core retrieval logic. Embeds the query, searches Pinecone. 
 # Then it reranks results with Cohere before returning top chunks. 
 # Each returned chunk includes text, filename, and page for citations.
-def retrieve(query: str, namespace: str, top_k: int = None) -> list[dict]:
+def retrieve(query: str, namespace: str, top_k: int = None, rerank: bool = True) -> list[dict]:
     top_k = top_k or settings.top_k
 
-    # Over-fetching - fetch more than needed before reranking — reranker needs candidates to work with.
-    # Since we only need top_k to be fed to the actual prompt.
     query_vector = _embed_query(query)
-    matches = _search_pinecone(query_vector, namespace, top_k=top_k * 3)
-    reranked = _rerank(query, matches)
+    if rerank:
+        # Over-fetching - fetch more than needed before reranking — reranker needs candidates to work with.
+        # Since we only need top_k to be fed to the actual prompt.
+        matches = _search_pinecone(query_vector, namespace, top_k=top_k * 3)
+        results = _rerank(query, matches)
+    else:
+        # dense only — fetch exactly top_k
+        matches = _search_pinecone(query_vector, namespace, top_k=top_k)
+        results = matches
 
     # this gets attached to the prompt
     return [
@@ -71,5 +76,5 @@ def retrieve(query: str, namespace: str, top_k: int = None) -> list[dict]:
             "page": m["metadata"]["page"],
             "score": m["score"]
         }
-        for m in reranked
+        for m in results
     ]
