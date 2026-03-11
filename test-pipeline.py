@@ -1,4 +1,4 @@
-# test_pipeline.py
+# test_pipeline.py - just running sanity checks
 import sys
 sys.path.append(".")
 
