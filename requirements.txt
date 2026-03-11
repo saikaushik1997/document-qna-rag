@@ -6,6 +6,7 @@ langchain-pinecone
 langchain-chroma
 openai
 cohere
+langchain-text-splitters
 
 # Vector stores
 pinecone
@@ -13,6 +14,8 @@ pinecone
 # Document processing
 pypdf2
 python-docx
+docx2txt
+pypdf
 
 # API
 fastapi

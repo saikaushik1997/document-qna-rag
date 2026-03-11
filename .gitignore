@@ -16,3 +16,7 @@ chroma_db/
 .idea/
 *.egg-info/
 EOF
+
+# specific files for random tests along the way
+test_pipeline.py
+test.pdf
