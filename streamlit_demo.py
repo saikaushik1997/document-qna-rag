@@ -3,7 +3,7 @@ import streamlit as st
 import requests
 
 # testing
-API_URL = "http://localhost:8000/api/v1"
+API_URL = "https://document-qna-rag.onrender.com/api/v1"
 
 st.title("Document QnA")
 
